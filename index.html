@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>GATE · 2026</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,109 +21,151 @@
     background: #000000;
     color: #ffffff;
     font-family: 'Inter', system-ui, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
+    transition: all 0.8s ease;
+  }
+
+  body.fullscreen {
+    background: #000000;
   }
 
   .container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 4rem 2rem;
-    max-width: 480px;
-    width: 100%;
+    padding: 2rem;
     opacity: 0;
-    animation: slowBreathIn 4.2s ease-out forwards;
+    animation: slowBreathIn 4.8s ease-out forwards;
   }
 
   @keyframes slowBreathIn {
-    0%   { opacity: 0; transform: translateY(80px); }
-    100% { opacity: 1; transform: translateY(0); }
+    to { opacity: 1; }
   }
 
   .title {
     font-family: 'Playfair Display', serif;
-    font-size: 3.6rem;
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
     font-weight: 400;
-    letter-spacing: -2px;
+    letter-spacing: -1.5px;
+    opacity: 0.94;
     margin-bottom: 0.4rem;
-    opacity: 0.92;
   }
 
   .date {
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 3vw, 1.3rem);
     font-weight: 300;
-    letter-spacing: 3px;
-    opacity: 0.45;
-    margin-bottom: 5rem;
+    letter-spacing: 6px;
+    opacity: 0.38;
+    margin-bottom: clamp(3rem, 12vw, 6rem);
     text-transform: uppercase;
   }
 
   .countdown {
     display: flex;
-    justify-content: center;
-    gap: 60px;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(2rem, 8vw, 5rem);
+    width: 100%;
+    max-width: 1400px;
   }
 
   .unit {
-    min-width: 100px;
+    min-width: clamp(90px, 18vw, 220px);
   }
 
   .number {
     font-family: 'Inter', sans-serif;
-    font-size: 4.8rem;
+    font-size: clamp(3.2rem, 12vw, 9rem);
     font-weight: 300;
-    letter-spacing: -6px;
+    letter-spacing: -0.08em;
     line-height: 1;
     color: #ffffff;
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 3.8s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateY(40px);
+    transition: all 4.2s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
   .number.visible {
-    opacity: 0.95;
+    opacity: 0.96;
     transform: translateY(0);
   }
 
   .flip {
-    animation: breathFlip 5s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: breathFlip 5.5s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
   @keyframes breathFlip {
-    0%   { transform: translateY(0);   opacity: 0.4; }
-    40%  { transform: translateY(-35px); opacity: 0.65; }
-    70%  { transform: translateY(22px);  opacity: 0.9;  }
-    100% { transform: translateY(0);   opacity: 0.95; }
+    0%   { transform: translateY(0);   opacity: 0.35; }
+    40%  { transform: translateY(-50px); opacity: 0.6; }
+    70%  { transform: translateY(30px);  opacity: 0.92; }
+    100% { transform: translateY(0);   opacity: 0.96; }
   }
 
   .label {
-    font-size: 0.78rem;
+    font-size: clamp(0.68rem, 2vw, 1rem);
     font-weight: 300;
-    letter-spacing: 4px;
-    opacity: 0.35;
-    margin-top: 1.2rem;
+    letter-spacing: 5px;
+    opacity: 0.32;
+    margin-top: 1.4rem;
     text-transform: uppercase;
   }
 
-  .breathe {
-    position: absolute;
-    bottom: 8%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.9rem;
-    font-weight: 300;
-    opacity: 0.28;
-    letter-spacing: 6px;
-    white-space: nowrap;
+  .controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    opacity: 0.35;
+    transition: opacity 0.6s;
   }
 
-  @media (max-width: 480px) {
-    .title   { font-size: 2.9rem; }
-    .number  { font-size: 3.8rem; letter-spacing: -4px; }
-    .countdown { gap: 40px; }
-    .unit    { min-width: 80px; }
+  .controls:hover,
+  .controls:focus-within {
+    opacity: 0.8;
+  }
+
+  .btn-fullscreen {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.6rem;
+    opacity: 0.6;
+    transition: all 0.4s;
+  }
+
+  .btn-fullscreen:hover {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  .breathe {
+    position: fixed;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(0.75rem, 2.5vw, 1rem);
+    font-weight: 300;
+    opacity: 0.22;
+    letter-spacing: 8px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  @media (orientation: landscape) and (max-height: 500px) {
+    .countdown {
+      gap: 2rem;
+    }
+    .unit {
+      min-width: 100px;
+    }
+    .number {
+      font-size: clamp(2.8rem, 10vw, 6rem);
+    }
   }
 </style>
 </head>
@@ -131,7 +173,7 @@
 
 <div class="container">
   <div class="title">GATE 2026</div>
-  <div class="date">08 . 02 . 26</div>
+  <div class="date">08 · 02 · 26</div>
 
   <div class="countdown" id="countdown">
     <div class="unit">
@@ -153,19 +195,33 @@
   </div>
 </div>
 
+<div class="controls">
+  <button class="btn-fullscreen" id="fsToggle" title="Toggle Fullscreen">↔</button>
+</div>
+
 <div class="breathe">inhale · exhale</div>
 
 <script>
 const GATE_DATE = new Date("2026-02-08T00:00:00+05:30");
-
 let lastValues = { days:-1, hours:-1, minutes:-1, seconds:-1 };
 
+const fsToggle = document.getElementById('fsToggle');
+
+fsToggle.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+});
+
+// Update countdown
 function update() {
   const diff = GATE_DATE - new Date();
 
   if (diff <= 0) {
     document.body.innerHTML = 
-      '<div style="text-align:center; color:#fff; font-family:\'Playfair Display\',serif; font-size:3.2rem; font-weight:400; opacity:0.9; padding:4rem 2rem;">Here.</div>';
+      '<div style="height:100vh;display:flex;align-items:center;justify-content:center;color:#fff;font-family:\'Playfair Display\',serif;font-size:clamp(3rem,10vw,8rem);font-weight:400;opacity:0.9;">Here.</div>';
     return;
   }
 
@@ -182,7 +238,7 @@ function update() {
 
     if (lastValues[key] === -1) {
       el.textContent = String(val).padStart(2,'0');
-      setTimeout(() => el.classList.add('visible'), 800);
+      setTimeout(() => el.classList.add('visible'), 1200);
     }
     else if (val !== lastValues[key]) {
       el.classList.remove('flip');
